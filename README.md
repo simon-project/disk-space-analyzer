@@ -2,19 +2,22 @@
 
 Выводит информацию о занятом дисковом пространстве внутри текущего каталога.
 
-Использование:
+## Использование
+
+Просто запустите это в нужном каталоге:
 ```
-curl -s https://raw.githubusercontent.com/simon-project/disk-space-analyzer/refs/heads/main/dsa.sh | bash
+curl -s https://raw.githubusercontent.com/simon-project/disk-space-analyzer/refs/heads/main/dsa.sh  | { content=$(cat); echo "$content" | md5sum | grep -q 2cb7889381853c1de800e9dadf39e82d && echo "$content" | bash || echo "MD5 checksum mismatch. Will not be executed."; }
 ```
 
 * * * 
 
 Providing information about disk space used in the current dir. 
 
-Usage:
+## Usage
 
+Just run this in the desired directory:
 ```
-curl -s https://raw.githubusercontent.com/simon-project/disk-space-analyzer/refs/heads/main/dsa.sh | bash
+curl -s https://raw.githubusercontent.com/simon-project/disk-space-analyzer/refs/heads/main/dsa.sh  | { content=$(cat); echo "$content" | md5sum | grep -q 2cb7889381853c1de800e9dadf39e82d && echo "$content" | bash || echo "MD5 checksum mismatch. Will not be executed."; }
 ```
 
 ## P.S.
