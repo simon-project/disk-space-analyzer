@@ -4,7 +4,7 @@
 
 Использование:
 ```
-curl https://raw.githubusercontent.com/simon-project/disk-space-analyzer/refs/heads/main/dsa.sh | bash
+curl -s https://raw.githubusercontent.com/simon-project/disk-space-analyzer/refs/heads/main/dsa.sh | bash
 ```
 
 * * * 
@@ -14,7 +14,7 @@ Providing information about disk space used in the current dir.
 Usage:
 
 ```
-curl https://raw.githubusercontent.com/simon-project/disk-space-analyzer/refs/heads/main/dsa.sh | bash
+curl -s https://raw.githubusercontent.com/simon-project/disk-space-analyzer/refs/heads/main/dsa.sh | bash
 ```
 
 ## P.S.
