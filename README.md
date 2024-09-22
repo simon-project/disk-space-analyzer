@@ -1,7 +1,4 @@
 # disk-space-analyzer
-<<<<<<< HEAD
-Coming soon...
-=======
 
 Выводит информацию о занятом дисковом пространстве внутри текущего каталога.
 
@@ -32,4 +29,3 @@ You may find here a "bicycle," and not of the most successful design,
 reinvented because standard solutions seemed too complicated, or you may
 discover "workarounds" that do not look good but nonetheless allow for
 movement. Whether to use this is up to you.
->>>>>>> bdf41d2 (Done :) Fast developing it is my best skill :)))
