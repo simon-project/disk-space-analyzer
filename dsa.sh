@@ -1,5 +1,7 @@
 #!/bin/bash
 
+df -h ./;
+
 read_input() {
     local prompt="$1"
     local default="$2"
