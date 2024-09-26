@@ -31,9 +31,13 @@ if ! [[ "$maxdepth" =~ ^[0-9]+$ ]]; then
     exit 1
 fi
 
-echo "Disk usage report:"
+echo -e "\nDisk usage report:\n"
 
-du -h --max-depth=$maxdepth --exclude=/proc -P "$(pwd)" | \
+curdir=$(du --si --max-depth=1 --exclude=/proc $(pwd)| sort -hr)
+echo "${curdir}" | head -1
+echo ""
+echo "${curdir}" |awk '{for (i=2; i<=NF; i++) printf "%s%s", $i, (i<NF ? OFS : ORS)}' | tail -n+2 | while read -r i; do 
+    du -xh --max-depth=$maxdepth --exclude=/proc -P "${i}" | \
     grep -E "^[0-9\.,]+[KMG]" | \
     awk -v minsize="$minsize" '
     BEGIN {
@@ -59,3 +63,5 @@ du -h --max-depth=$maxdepth --exclude=/proc -P "$(pwd)" | \
             print $0
         }
     }' | sort -hr
+echo -e "\n"
+done | sed -E ':a;N;$!ba;s/\n{3,}/\n\n/g'

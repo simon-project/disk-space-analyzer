@@ -8,7 +8,7 @@
 
 Просто запустите это в нужном каталоге:
 ```
-curl -s https://raw.githubusercontent.com/simon-project/disk-space-analyzer/refs/heads/main/dsa.sh  | { content=$(cat); echo "$content" | md5sum | grep -q c93a219845647793df4522a88d309b58 && echo "$content" | bash || echo "MD5 checksum mismatch. Will not be executed."; }
+curl -s https://raw.githubusercontent.com/simon-project/disk-space-analyzer/refs/heads/main/dsa.sh  | { content=$(cat); echo "$content" | md5sum | grep -q bd0d5e980e89a556e879913592bb94e8 && echo "$content" | bash || echo "MD5 checksum mismatch. Will not be executed."; }
 ```
 
 * * * 
@@ -21,7 +21,7 @@ Allows you to set the maximum depth and minimum size of the displayed directorie
 
 Just run this in the desired directory:
 ```
-curl -s https://raw.githubusercontent.com/simon-project/disk-space-analyzer/refs/heads/main/dsa.sh  | { content=$(cat); echo "$content" | md5sum | grep -q c93a219845647793df4522a88d309b58 && echo "$content" | bash || echo "MD5 checksum mismatch. Will not be executed."; }
+curl -s https://raw.githubusercontent.com/simon-project/disk-space-analyzer/refs/heads/main/dsa.sh  | { content=$(cat); echo "$content" | md5sum | grep -q bd0d5e980e89a556e879913592bb94e8 && echo "$content" | bash || echo "MD5 checksum mismatch. Will not be executed."; }
 ```
 
 ## P.S.
