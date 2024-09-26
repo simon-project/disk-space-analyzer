@@ -2,6 +2,8 @@
 
 Выводит информацию о занятом дисковом пространстве внутри текущего каталога.
 
+Позволяет задать максимальную глубину и минимальный размер отображаемых каталогов в результирующем списке.
+
 ## Использование
 
 Просто запустите это в нужном каталоге:
@@ -11,7 +13,9 @@ curl -s https://raw.githubusercontent.com/simon-project/disk-space-analyzer/refs
 
 * * * 
 
-Providing information about disk space used in the current dir. 
+Providing information about disk space used in the current dir.
+
+Allows you to set the maximum depth and minimum size of the displayed directories in the resulting list
 
 ## Usage
 
