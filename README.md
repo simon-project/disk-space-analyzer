@@ -6,7 +6,7 @@
 
 Просто запустите это в нужном каталоге:
 ```
-curl -s https://raw.githubusercontent.com/simon-project/disk-space-analyzer/refs/heads/main/dsa.sh  | { content=$(cat); echo "$content" | md5sum | grep -q cc117cb590ef7903602b35da027d28bc && echo "$content" | bash || echo "MD5 checksum mismatch. Will not be executed."; }
+curl -s https://raw.githubusercontent.com/simon-project/disk-space-analyzer/refs/heads/main/dsa.sh  | { content=$(cat); echo "$content" | md5sum | grep -q e075906f0c15de23bb5d7ea701ac56a4 && echo "$content" | bash || echo "MD5 checksum mismatch. Will not be executed."; }
 ```
 
 * * * 
@@ -17,7 +17,7 @@ Providing information about disk space used in the current dir.
 
 Just run this in the desired directory:
 ```
-curl -s https://raw.githubusercontent.com/simon-project/disk-space-analyzer/refs/heads/main/dsa.sh  | { content=$(cat); echo "$content" | md5sum | grep -q cc117cb590ef7903602b35da027d28bc && echo "$content" | bash || echo "MD5 checksum mismatch. Will not be executed."; }
+curl -s https://raw.githubusercontent.com/simon-project/disk-space-analyzer/refs/heads/main/dsa.sh  | { content=$(cat); echo "$content" | md5sum | grep -q e075906f0c15de23bb5d7ea701ac56a4 && echo "$content" | bash || echo "MD5 checksum mismatch. Will not be executed."; }
 ```
 
 ## P.S.

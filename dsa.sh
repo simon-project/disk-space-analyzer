@@ -2,33 +2,6 @@
 
 df -h ./;
 
-fanny_sort() {
-local first=""
-local fun=""
-    while IFS= read -r line; do
-        first=$(echo -e "${first}\n${line}");
-    done
-first=$(echo "${first}" | tail -n+2)
-while [ -n "${first}" ]; do
-    line=$(echo "$first" | head -n 1)
-    fpath=$(echo "$line"|column -H 1 -t)
-    #echo "${fpath}"
-    if [[ "${fpath}" != "/" ]];then
-        downd=$(echo "${first}" | grep -F "${fpath}")
-        echo "${downd}"
-        echo ""
-    else
-        downd=""
-        echo "${line}"
-    fi
-    fun=$(echo -e "${line}\n${downd}")
-    first=$(echo "${first}" | tail -n+2)
-    if [[ "${fpath}" != "/" ]];then
-        first=$(echo "$first" | grep -v -F "${fpath}")
-    fi
-done
-
-}
 read_input() {
     local prompt="$1"
     local default="$2"
@@ -85,4 +58,4 @@ du -h --max-depth=$maxdepth --exclude=/proc -P "$(pwd)" | \
         if (bytes >= min_bytes) {
             print $0
         }
-    }' | sort -hr | fanny_sort
+    }' | sort -hr
