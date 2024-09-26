@@ -2,6 +2,33 @@
 
 df -h ./;
 
+fanny_sort() {
+local first=""
+local fun=""
+    while IFS= read -r line; do
+        first=$(echo -e "${first}\n${line}");
+    done
+first=$(echo "${first}" | tail -n+2)
+while [ -n "${first}" ]; do
+    line=$(echo "$first" | head -n 1)
+    fpath=$(echo "$line"|column -H 1 -t)
+    #echo "${fpath}"
+    if [[ "${fpath}" != "/" ]];then
+        downd=$(echo "${first}" | grep -F "${fpath}")
+        echo "${downd}"
+        echo ""
+    else
+        downd=""
+        echo "${line}"
+    fi
+    fun=$(echo -e "${line}\n${downd}")
+    first=$(echo "${first}" | tail -n+2)
+    if [[ "${fpath}" != "/" ]];then
+        first=$(echo "$first" | grep -v -F "${fpath}")
+    fi
+done
+
+}
 read_input() {
     local prompt="$1"
     local default="$2"
@@ -14,7 +41,7 @@ read_input() {
     echo "${result:-$default}"
 }
 
-minsize=$(read_input "Enter minimal size [250m]: " "250m")
+minsize=$(read_input "Enter minimal size NUM(k|m|g) [250m]: " "250m")
 
 case "$minsize" in
     *[kK]) minsize=$(echo "$minsize" | sed 's/[kK]/K/') ;;
@@ -31,9 +58,9 @@ if ! [[ "$maxdepth" =~ ^[0-9]+$ ]]; then
     exit 1
 fi
 
-echo "Calculating disk usage..."
+echo "Disk usage report:"
 
-du -ah --max-depth=$maxdepth --exclude=/proc -P "$(pwd)" | \
+du -h --max-depth=$maxdepth --exclude=/proc -P "$(pwd)" | \
     grep -E "^[0-9\.,]+[KMG]" | \
     awk -v minsize="$minsize" '
     BEGIN {
@@ -58,4 +85,4 @@ du -ah --max-depth=$maxdepth --exclude=/proc -P "$(pwd)" | \
         if (bytes >= min_bytes) {
             print $0
         }
-    }' | sort -hr
+    }' | sort -hr | fanny_sort
