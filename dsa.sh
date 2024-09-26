@@ -1,7 +1,7 @@
 #!/bin/bash
 
 df -h ./;
-
+# removed
 read_input() {
     local prompt="$1"
     local default="$2"
