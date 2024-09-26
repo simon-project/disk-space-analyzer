@@ -106,9 +106,9 @@ fi
 
 echo "Disk usage report:"
 
-du -h --max-depth=$maxdepth --exclude=/proc -P "$(pwd)" | \
-    grep -E "^[0-9\.,]+[KMG]" | \
-    awk -v minsize="$minsize" '
+stdbuf -oL du -h --max-depth=$maxdepth --exclude=/proc -P "$(pwd)" | \
+    stdbuf -oL grep -E "^[0-9\.,]+[KMG]" | \
+    stdbuf -oL awk -v minsize="$minsize" '
     BEGIN {
         unit = substr(minsize, length(minsize), 1)
         size = substr(minsize, 1, length(minsize)-1)
@@ -131,4 +131,19 @@ du -h --max-depth=$maxdepth --exclude=/proc -P "$(pwd)" | \
         if (bytes >= min_bytes) {
             print $0
         }
-    }' | sort  -hr -k1,1 -k2,2 | funny_sort | sed -E "s#^([^/]{1,12}${fpwd}/[^/]+$)#\n\1#g"
+    }' | tee >(while read -r line; do
+    max_length=18
+    current_length=0
+    direction=1
+    while read -r line; do
+            printf "\r%*s" $current_length | tr " " "."
+            current_length=$((current_length + direction))
+            if [ $current_length -ge $max_length ]; then
+                direction=-1
+            fi
+            if [ $current_length -le 1 ]; then
+                direction=1
+            fi
+            sleep 0.1
+        done 
+    done >&2) | sort  -hr -k1,1 -k2,2 | funny_sort | sed -E "s#^([^/]{1,12}${fpwd}/[^/]+$)#\n\1#g"
