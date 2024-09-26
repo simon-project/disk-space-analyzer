@@ -1,7 +1,78 @@
 #!/bin/bash
 
 df -h ./;
-# removed
+
+#####################################
+
+process_fun_downd() {
+    local fund_str="$1"
+    local fund=$(echo "$fund_str" | awk '{print $2}')  
+    local line_num=0
+    local found=0
+    local funprev=""
+    local funpast=""
+    local current_line
+    while IFS= read -r current_line; do
+        line_num=$((line_num + 1))  # Увеличиваем номер строки
+        fun_path=$(echo "$current_line" | awk '{print $2}')
+        # Если поле пустое, берем всю строку как путь
+        if [[ -z "$current_line" ]]; then
+            continue
+        fi
+        if [[ -z "$fun_path" ]]; then
+            fun_path="$current_line"
+        fi
+        if [[ -z "$fun_path" ]]; then
+            continue
+        fi
+        if [[ "$fun_path" == "$fund"* && $found -eq 0 ]]; then
+            found=1
+            break
+        fi
+    done <<< "$fun"
+
+    if [[ $found -eq 1 ]]; then
+        funprev=$(echo "$fun" | head -n "$((line_num - 1))")
+        funpast=$(echo "$fun" | tail -n +"$line_num" | head -n -1)
+        fun=$(printf "%s\n%s\n%s\n" "$funprev" "$fund_str" "$funpast")
+    else
+        fun=$(printf "%s\n%s\n" "$fun" "$fund_str")
+    fi
+
+}
+
+
+funny_sort() {
+local first=""
+local fun=""
+    while IFS= read -r line; do
+        first=$(echo -e "${first}\n${line}");
+    done
+    first=$(echo "${first}" | tail -n+2)
+    fnext="${first}"
+while [ -n "${first}" ]; do
+    fline=$(echo "$first" | head -1)
+    fun=$(echo -e "${fun}\n${fline} ")
+    fpath=$(echo "$fline"|column -H 1 -t)
+    if [[ "${fpath}" != "$(pwd)" && "${fpath}" != "/" && "${fpath}" != "" ]];then
+        downd=$(echo "${first}" | grep -F "${fpath}")
+        while IFS= read -r downd_line; do
+            if [[ "${downd_line}" != "" ]]; then
+                process_fun_downd "$downd_line"
+            fi
+        done <<< "$downd"
+
+
+        first=$(echo "${first}" | grep -v -F "${fpath}")
+    fi
+    if [[ "$(echo ${downd} | wc -l)" -gt "0" && -z "${downd}" ]]; then
+        first=$(echo "${first}" | tail -n+2)
+    fi
+done
+
+echo -e "${fun}"
+
+}
 read_input() {
     local prompt="$1"
     local default="$2"
@@ -31,13 +102,9 @@ if ! [[ "$maxdepth" =~ ^[0-9]+$ ]]; then
     exit 1
 fi
 
-echo -e "\nDisk usage report:\n"
+echo "Disk usage report:"
 
-curdir=$(du --si --max-depth=1 --exclude=/proc $(pwd)| sort -hr)
-echo "${curdir}" | head -1
-echo ""
-echo "${curdir}" |awk '{for (i=2; i<=NF; i++) printf "%s%s", $i, (i<NF ? OFS : ORS)}' | tail -n+2 | while read -r i; do 
-    du -xh --max-depth=$maxdepth --exclude=/proc -P "${i}" | \
+du -h --max-depth=$maxdepth --exclude=/proc -P "$(pwd)" | \
     grep -E "^[0-9\.,]+[KMG]" | \
     awk -v minsize="$minsize" '
     BEGIN {
@@ -62,6 +129,4 @@ echo "${curdir}" |awk '{for (i=2; i<=NF; i++) printf "%s%s", $i, (i<NF ? OFS : O
         if (bytes >= min_bytes) {
             print $0
         }
-    }' | sort -hr
-echo -e "\n"
-done | sed -E ':a;N;$!ba;s/\n{3,}/\n\n/g'
+    }' | sort  -hr -k1,1 -k2,2 | funny_sort | sed -E "s#^([^/]{1,12}$(pwd)/[^/]+$)#\n\1#g"
