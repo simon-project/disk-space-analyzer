@@ -13,9 +13,8 @@ process_fun_downd() {
     local funpast=""
     local current_line
     while IFS= read -r current_line; do
-        line_num=$((line_num + 1))  # Увеличиваем номер строки
+        line_num=$((line_num + 1))
         fun_path=$(echo "$current_line" | awk '{print $2}')
-        # Если поле пустое, берем всю строку как путь
         if [[ -z "$current_line" ]]; then
             continue
         fi
@@ -38,9 +37,7 @@ process_fun_downd() {
     else
         fun=$(printf "%s\n%s\n" "$fun" "$fund_str")
     fi
-
 }
-
 
 funny_sort() {
 local first=""
