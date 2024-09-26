@@ -98,6 +98,11 @@ if ! [[ "$maxdepth" =~ ^[0-9]+$ ]]; then
     echo "Invalid max depth format."
     exit 1
 fi
+if [[ "$(pwd)" == "/" ]]; then
+    fpwd=""
+else 
+    fpwd="$(pwd)"
+fi
 
 echo "Disk usage report:"
 
@@ -126,4 +131,4 @@ du -h --max-depth=$maxdepth --exclude=/proc -P "$(pwd)" | \
         if (bytes >= min_bytes) {
             print $0
         }
-    }' | sort  -hr -k1,1 -k2,2 | funny_sort | sed -E "s#^([^/]{1,12}$(pwd)/[^/]+$)#\n\1#g"
+    }' | sort  -hr -k1,1 -k2,2 | funny_sort | sed -E "s#^([^/]{1,12}${fpwd}/[^/]+$)#\n\1#g"
