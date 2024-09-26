@@ -34,7 +34,7 @@ fi
 echo "Calculating disk usage..."
 
 du -ah --max-depth=$maxdepth --exclude=/proc -P "$(pwd)" | \
-    grep -E "^[0-9\.]+[KMG]" | \
+    grep -E "^[0-9\.,]+[KMG]" | \
     awk -v minsize="$minsize" '
     BEGIN {
         unit = substr(minsize, length(minsize), 1)
