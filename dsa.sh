@@ -106,7 +106,7 @@ fi
 
 echo "Disk usage report:"
 
-stdbuf -oL du -h --max-depth=$maxdepth --exclude=/proc -P "$(pwd)" | \
+stdbuf -oL du -ahxP --max-depth=$maxdepth --exclude=/dev --exclude=/proc -P "$(pwd)" | \
     stdbuf -oL grep -E "^[0-9\.,]+[KMG]" | \
     stdbuf -oL awk -v minsize="$minsize" '
     BEGIN {
