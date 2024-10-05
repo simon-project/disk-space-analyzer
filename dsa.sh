@@ -50,7 +50,7 @@ local fun=""
 while [ -n "${first}" ]; do
     fline=$(echo "$first" | head -1)
     fun=$(echo -e "${fun}\n${fline} ")
-    fpath=$(echo "$fline"|column -H 1 -t)
+    fpath=$(echo "$fline"| awk '{for(i=2;i<=NF;i++) printf "%-10s", $i; print ""}')
     if [[ "${fpath}" != "$(pwd)" && "${fpath}" != "/" && "${fpath}" != "" ]];then
         downd=$(echo "${first}" | grep -F "${fpath}")
         while IFS= read -r downd_line; do
